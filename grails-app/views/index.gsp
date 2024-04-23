@@ -2,76 +2,101 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Welcome to Grails</title>
+    <title>Página de cadastro</title>
+    <style>
+        body {
+            background-color:black;
+        }
+        .caixa {
+            display:flex;
+            border:4px solid #22D4FD;
+            border-radius: 5px;
+            width:100%;
+            height:100%;
+        }
+        .bemvindo {
+            color:#F6F6F6;
+            padding:10px;
+            margin:100px;
+            margin-top:300px;
+        }
+        h1 {
+            font-size: 250%;
+            font-family: courier;
+        }
+        p {
+            font-size: 150%;
+            font-family: verdana;
+        }
+        strong {
+            color: #22D4FD;
+        }
+        .form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align:center;
+            padding:10px;
+        }
+        label {
+            color:#F6F6F6;
+            margin-bottom:5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+        input {
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-<content tag="nav">
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li class="dropdown-item"><a href="#">Environment: ${grails.util.Environment.current.name}</a></li>
-            <li class="dropdown-item"><a href="#">App profile: ${grailsApplication.config.grails?.profile}</a></li>
-            <li class="dropdown-item"><a href="#">App version:
-                <g:meta name="info.app.version"/></a>
-            </li>
-            <li role="separator" class="dropdown-divider"></li>
-            <li class="dropdown-item"><a href="#">Grails version:
-                <g:meta name="info.app.grailsVersion"/></a>
-            </li>
-            <li class="dropdown-item"><a href="#">Groovy version: ${GroovySystem.getVersion()}</a></li>
-            <li class="dropdown-item"><a href="#">JVM version: ${System.getProperty('java.version')}</a></li>
-            <li role="separator" class="dropdown-divider"></li>
-            <li class="dropdown-item"><a href="#">Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Artefacts <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li class="dropdown-item"><a href="#">Controllers: ${grailsApplication.controllerClasses.size()}</a></li>
-            <li class="dropdown-item"><a href="#">Domains: ${grailsApplication.domainClasses.size()}</a></li>
-            <li class="dropdown-item"><a href="#">Services: ${grailsApplication.serviceClasses.size()}</a></li>
-            <li class="dropdown-item"><a href="#">Tag Libraries: ${grailsApplication.tagLibClasses.size()}</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Installed Plugins <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-                <li class="dropdown-item"><a href="#">${plugin.name} - ${plugin.version}</a></li>
-            </g:each>
-        </ul>
-    </li>
-</content>
-
-<div class="svg" role="presentation">
-    <div class="grails-logo-container">
-        <asset:image src="grails-cupsonly-logo-white.svg" class="grails-logo"/>
-    </div>
-</div>
-
-<div id="content" role="main">
-    <section class="row colset-2-its">
-        <h1>Welcome to Grails</h1>
-
-        <p>
-            Congratulations, you have successfully started your first Grails application! At the moment
-            this is the default page, feel free to modify it to either redirect to a controller or display
-            whatever content you may choose. Below is a list of controllers that are currently deployed in
-            this application, click on each to execute its default action:
-        </p>
-
-        <div id="controllers" role="navigation">
-            <h2>Available Controllers:</h2>
-            <ul>
-                <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                    <li class="controller">
-                        <g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link>
-                    </li>
-                </g:each>
-            </ul>
+    <div class="caixa">
+        <div class="bemvindo">
+            <h1>Bem-vindo a página de <strong>cadastro!</strong></h1><br>
+            <p>Use o formulário a direita para <strong>preenchimento de seus dados</strong>.</p>
         </div>
-    </section>
-</div>
-
+        <div class="form">
+            <form>
+                <label for="nome">NOME:</label>
+                <input type="text" id="nome" name="nome"><br>
+                <label for="nome">CPF:</label>
+                <input type="text" id="cpf" name="cpf"><br>
+                <label for="nome">TELEFONE:</label>
+                <input type="text" id="telefone" name="telefone"><br>
+                <label for="nome">CEP:</label>
+                <input type="text" id="cep" name="cep"><br>
+                <label for="nome">ENDERECO:</label>
+                <input type="text" id="endereco" name="endereco"><br>
+                <label for="nome">BAIRRO:</label>
+                <input type="text" id="bairro" name="bairro"><br>
+                <label for="nome">CIDADE:</label>
+                <input type="text" id="cidade" name="cidade"><br>
+                <label for="nome">ESTADO:</label>
+                <input type="text" id="estado" name="estado"><br>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById("cep").addEventListener("input", function(){
+            var cep = this.value.replace(/\D/g, '');
+            if(cep.length === 8){
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.erro){
+                        console.error("CEP não encontrado");
+                    } else {
+                        // OBS CONTINUAR A FAZER O SCRIPT AMANHA
+                    }
+                })
+            }
+        })
+    </script>
 </body>
 </html>
